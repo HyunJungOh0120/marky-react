@@ -19,8 +19,7 @@
 	},
 	"plugins": ["react", "react-hooks", "prettier"],
 	"rules": {
-		"max-len": ["error", { "code": 100 }],
-		"prettier/prettier": "error",
+		"prettier/prettier": 0,
 		"react/jsx-one-expression-per-line": "off",
 		"react/jsx-filename-extension": ["off"],
 		"no-use-before-define": "off",
@@ -29,6 +28,6 @@
 		"react/prop-types": ["warn"],
 		"no-return-assign": ["off"],
 		"consistent-return": "off",
-		"prefer-destructuring": ["error", { "object": true, "array": false }]
+		"prefer-destructuring": ["warn", { "object": true, "array": false }]
 	}
 }
