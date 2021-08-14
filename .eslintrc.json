@@ -25,9 +25,21 @@
 		"no-use-before-define": "off",
 		"spaced-comment": "off",
 		"no-console": "warn",
+		"consistent-return": "off",
+		"func-names": "off",
+
 		"react/prop-types": ["warn"],
 		"no-return-assign": ["off"],
-		"consistent-return": "off",
-		"prefer-destructuring": ["warn", { "object": true, "array": false }]
+		"object-shorthand": "off",
+		"no-process-exit": "off",
+		"no-param-reassign": "off",
+		"no-return-await": "off",
+		"no-underscore-dangle": "off",
+
+		"prefer-destructuring": ["warn", { "object": true, "array": false }],
+		"arrow-body-style": "off",
+		"prefer-arrow-callback": "off",
+		"no-unused-vars": "warn",
+		"react/require-default-props": ["warn"]
 	}
 }
