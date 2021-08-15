@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
+import { MainProvider } from './MainProvider';
+import WithAxios from './WithAxios';
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-	<Router>
-		<React.StrictMode>
-			<App />
-		</React.StrictMode>
-	</Router>,
+	<MainProvider>
+		<WithAxios>
+			<Router>
+				<React.StrictMode>
+					<App />
+				</React.StrictMode>
+			</Router>
+		</WithAxios>
+	</MainProvider>,
 	document.getElementById('root'),
 );
 

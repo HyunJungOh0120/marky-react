@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import axiosInstance from '../../utils/axios';
 import ExitButton from './ExitButton';
+import { useMain, actions } from '../../MainProvider';
+import parseJwt from '../../utils/parseJwt';
 
 const Login = () => {
 	const history = useHistory();
+	const { mainDispatch } = useMain();
 
 	const initialForm = Object.freeze({
 		email: '',
@@ -22,7 +26,21 @@ const Login = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		history.push('/');
+		axiosInstance.post('/user/login/', formData).then((res) => {
+			if (res.data.access) {
+				//eslint-disable-next-line
+				const parsedJwt = parseJwt(res.data.access);
+				mainDispatch({
+					type: actions.SIGNIN,
+					payload: {
+						userId: parsedJwt.user_id,
+						accessToken: res.data.access,
+						exp: parsedJwt.exp * 1,
+					},
+				});
+				history.push('/');
+			}
+		});
 	};
 
 	return (

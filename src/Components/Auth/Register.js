@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import axiosInstance from '../../axios';
+import axiosInstance from '../../utils/axios';
 import ExitButton from './ExitButton';
 
 const Register = () => {
