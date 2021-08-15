@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ScrapForm from '../Forms/ScrapForm';
 
 const AfterAuth = () => {
 	return (
@@ -15,12 +16,7 @@ const AfterAuth = () => {
 					</Link>
 				</div>
 			</div>
-			<form>
-				<input type="text" placeholder="Put the URL" />
-				<button type="submit" className="font-logo">
-					marky
-				</button>
-			</form>
+			<ScrapForm />
 			<div className="col-start-11 col-end-13">
 				<div className="grid grid-cols-2">
 					<Link to="/login">
