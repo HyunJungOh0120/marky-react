@@ -40,6 +40,7 @@
 		"arrow-body-style": "off",
 		"prefer-arrow-callback": "off",
 		"no-unused-vars": "warn",
-		"react/require-default-props": ["warn"]
+		"react/require-default-props": ["warn"],
+		"no-plusplus": "off"
 	}
 }

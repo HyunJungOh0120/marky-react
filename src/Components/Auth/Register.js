@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import axiosInstance from '../../axios';
 import ExitButton from './ExitButton';
 
 const Register = () => {
@@ -19,6 +20,8 @@ const Register = () => {
 
 	const [formData, setFormData] = useState(initialForm);
 	const [errors, setErrors] = useState(initialError);
+
+	const history = useHistory();
 
 	const handleChange = (e) => {
 		const input = e.target.name;
@@ -72,10 +75,39 @@ const Register = () => {
 			});
 		}
 		if (!validation) return;
-		// eslint-disable-next-line
-		console.log('hihi');
 
-		// TODO submit
+		axiosInstance
+			.post('/user/register/', {
+				email: formData.email,
+				username: formData.username,
+				password: formData.password,
+			})
+			.then(function (res) {
+				if (res.status === 201) {
+					history.push('/login');
+				}
+			})
+			.catch(function (error) {
+				if (error.response) {
+					const field = error.response.data;
+
+					if (field.email) {
+						setErrors(() => {
+							return { ...setErrors, email: field.email };
+						});
+					}
+				} else if (error.request) {
+					// The request was made but no response was received
+					// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+					// http.ClientRequest in node.js
+					// eslint-disable-next-line
+					console.log(error.request);
+				} else {
+					// Something happened in setting up the request that triggered an Error
+					// eslint-disable-next-line
+					console.log('Error', error.message);
+				}
+			});
 	};
 
 	return (
