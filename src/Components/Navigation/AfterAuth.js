@@ -1,8 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import axiosInstance from '../../utils/axios';
 import ScrapForm from '../Forms/ScrapForm';
+import { useMain, actions } from '../../MainProvider';
 
 const AfterAuth = () => {
+	const { mainDispatch } = useMain();
+	const history = useHistory();
+
+	const handleLogout = () => {
+		axiosInstance.post('/user/logout/').then((res) => {
+			//eslint-disable-next-line
+			console.log(res);
+			mainDispatch({ type: actions.SIGNOUT });
+
+			history.push('/');
+		});
+	};
+
 	return (
 		<>
 			<div className="col-start-3 col-end-5">
@@ -24,7 +39,9 @@ const AfterAuth = () => {
 					</Link>
 
 					<Link to="/logout">
-						<div>Log out</div>
+						<button type="button" onClick={handleLogout}>
+							Log out
+						</button>
 					</Link>
 				</div>
 			</div>

@@ -4,18 +4,16 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import { MainProvider } from './MainProvider';
-import WithAxios from './WithAxios';
+
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
 	<MainProvider>
-		<WithAxios>
-			<Router>
-				<React.StrictMode>
-					<App />
-				</React.StrictMode>
-			</Router>
-		</WithAxios>
+		<Router>
+			<React.StrictMode>
+				<App />
+			</React.StrictMode>
+		</Router>
 	</MainProvider>,
 	document.getElementById('root'),
 );

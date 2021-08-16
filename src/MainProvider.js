@@ -1,13 +1,14 @@
 import React, { useContext, createContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
+import parseJwt from './utils/parseJwt';
 
 const MainContext = createContext();
 
+const accessToken = localStorage.getItem('access_token');
+
 const initialState = Object.freeze({
-	isAuthenticated: false,
-	userId: '',
-	accessToken: '',
-	exp: 0,
+	isAuthenticated: accessToken !== null,
+	userId: accessToken !== null ? parseJwt(accessToken).user_id : '',
 });
 
 const actions = {
@@ -18,20 +19,18 @@ const actions = {
 const mainReducer = (state, action) => {
 	switch (action.type) {
 		case actions.SIGNIN:
+			localStorage.setItem('access_token', action.payload.accessToken);
+
 			return {
 				...state,
 				isAuthenticated: true,
-				userId: action.payload.userId,
-				accessToken: action.payload.accessToken,
-				exp: action.payload.exp,
 			};
 		case actions.SIGNOUT:
+			localStorage.removeItem('access_token');
 			return {
 				...state,
 				isAuthenticated: false,
 				userId: '',
-				accessToken: '',
-				exp: 0,
 			};
 
 		default:

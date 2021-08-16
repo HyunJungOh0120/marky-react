@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
 import ExitButton from './ExitButton';
 import { useMain, actions } from '../../MainProvider';
-import parseJwt from '../../utils/parseJwt';
 
 const Login = () => {
 	const history = useHistory();
@@ -29,15 +28,16 @@ const Login = () => {
 		axiosInstance.post('/user/login/', formData).then((res) => {
 			if (res.data.access) {
 				//eslint-disable-next-line
-				const parsedJwt = parseJwt(res.data.access);
+				console.log(res);
+
 				mainDispatch({
 					type: actions.SIGNIN,
 					payload: {
-						userId: parsedJwt.user_id,
 						accessToken: res.data.access,
-						exp: parsedJwt.exp * 1,
 					},
 				});
+
+				axiosInstance.defaults.headers.Authorization = `Bearer ${res.data.access}`;
 				history.push('/');
 			}
 		});

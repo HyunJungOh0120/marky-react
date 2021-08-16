@@ -41,6 +41,7 @@
 		"prefer-arrow-callback": "off",
 		"no-unused-vars": "warn",
 		"react/require-default-props": ["warn"],
-		"no-plusplus": "off"
+		"no-plusplus": "off",
+		"no-else-return": "error"
 	}
 }
