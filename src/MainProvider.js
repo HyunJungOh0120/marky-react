@@ -1,5 +1,5 @@
-import React, { useContext, createContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
+import React, { createContext, useContext, useReducer } from 'react';
 import parseJwt from './utils/parseJwt';
 
 const MainContext = createContext();
@@ -8,7 +8,8 @@ const accessToken = localStorage.getItem('access_token');
 
 const initialState = Object.freeze({
 	isAuthenticated: accessToken !== null,
-	userId: accessToken !== null ? parseJwt(accessToken).user_id : '',
+	userId: accessToken ? parseJwt(accessToken).user_id : '',
+	username: accessToken ? parseJwt(accessToken).username : '',
 });
 
 const actions = {
@@ -24,6 +25,8 @@ const mainReducer = (state, action) => {
 			return {
 				...state,
 				isAuthenticated: true,
+				userId: action.payload.userId,
+				username: action.payload.username,
 			};
 		case actions.SIGNOUT:
 			localStorage.removeItem('access_token');
@@ -31,6 +34,7 @@ const mainReducer = (state, action) => {
 				...state,
 				isAuthenticated: false,
 				userId: '',
+				username: '',
 			};
 
 		default:

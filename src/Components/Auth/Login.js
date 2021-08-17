@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
 import ExitButton from './ExitButton';
 import { useMain, actions } from '../../MainProvider';
+import parseJwt from '../../utils/parseJwt';
 
 const Login = () => {
 	const history = useHistory();
@@ -25,22 +26,30 @@ const Login = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		axiosInstance.post('/user/login/', formData).then((res) => {
-			if (res.data.access) {
-				//eslint-disable-next-line
-				console.log(res);
+		axiosInstance
+			.post('/user/login/', formData)
+			.then((res) => {
+				if (res.data.access) {
+					//eslint-disable-next-line
+					console.log(res);
 
-				mainDispatch({
-					type: actions.SIGNIN,
-					payload: {
-						accessToken: res.data.access,
-					},
-				});
-
-				axiosInstance.defaults.headers.Authorization = `Bearer ${res.data.access}`;
-				history.push('/');
-			}
-		});
+					mainDispatch({
+						type: actions.SIGNIN,
+						payload: {
+							accessToken: res.data.access,
+							userId: parseJwt(res.data.access).user_id,
+							username: parseJwt(res.data.access).username,
+						},
+					});
+					// eslint-disable-next-line
+					axiosInstance.defaults.headers['Authorization'] = `Bearer ${res.data.access}`;
+					history.push(`/board/${parseJwt(res.data.access).username}`);
+				}
+			})
+			.catch((err) => {
+				// eslint-disable-next-line
+				console.log(err);
+			});
 	};
 
 	return (
