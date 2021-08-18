@@ -78,30 +78,45 @@ axiosInstance.interceptors.response.use(
 		) {
 			//eslint-disable-next-line
 			console.log('token not valid?🍉');
-			return axiosInstance
-				.post('/user/login/refresh/')
-				.then((res) => {
-					//eslint-disable-next-line
+			const refreshToken = localStorage.getItem('refresh_token');
+			if (refreshToken !== 'undefined') {
+				const exp = refreshToken.split('.')[1];
 
-					localStorage.setItem('access_token', res.data.access);
+				const tokenParts = JSON.parse(atob(exp));
+				const now = Math.ceil(Date.now() / 1000);
+				console.log('tokenParts.exp : now ', tokenParts.exp, now);
+				if (tokenParts.exp > now) {
+					return axiosInstance
+						.post('/user/login/refresh/', { refresh: refreshToken })
+						.then((res) => {
+							//eslint-disable-next-line
 
-					// eslint-disable-next-line
-					axiosInstance.defaults.headers['Authorization'] = `Bearer ${res.data.access}`;
-					// eslint-disable-next-line
-					originalRequest.defaults.headers['Authorization'] = `Bearer ${res.data.access}`;
+							console.log(res);
 
-					return axiosInstance(originalRequest);
-				})
-				.catch((err) => {
-					//eslint-disable-next-line
-					console.log(err);
-					window.location.href = '/login/';
-				});
+							localStorage.setItem('access_token', res.data.access);
+							localStorage.setItem('refresh_token', res.data.refresh);
+
+							// eslint-disable-next-line
+							axiosInstance.defaults.headers['Authorization'] = `Bearer ${res.data.access}`;
+							// eslint-disable-next-line
+							originalRequest.defaults.headers['Authorization'] = `Bearer ${res.data.access}`;
+
+							return axiosInstance(originalRequest);
+						})
+						.catch((err) => {
+							//eslint-disable-next-line
+							console.log(err);
+
+							window.location.href = '/login/';
+						});
+				}
+			} else {
+				window.location.href = '/login/';
+			}
+			//eslint-disable-next-line
+			console.log(error.message);
+			// window.location.href = '/login/';
 		}
-		//eslint-disable-next-line
-		console.log(error.message);
-		// window.location.href = '/login/';
-
 		return Promise.reject(error);
 	},
 );

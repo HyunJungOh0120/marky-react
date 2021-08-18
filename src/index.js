@@ -1,19 +1,27 @@
 import React from 'react';
+
 import ReactDOM from 'react-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
+import Navbar from './Components/Navigation/Navbar';
 import './index.css';
 import { MainProvider } from './MainProvider';
 
 // import reportWebVitals from './reportWebVitals';
 
+const queryClient = new QueryClient();
+
 ReactDOM.render(
 	<MainProvider>
-		<Router>
-			<React.StrictMode>
-				<App />
-			</React.StrictMode>
-		</Router>
+		<QueryClientProvider client={queryClient}>
+			<Router>
+				<React.StrictMode>
+					<Navbar />
+					<App />
+				</React.StrictMode>
+			</Router>
+		</QueryClientProvider>
 	</MainProvider>,
 	document.getElementById('root'),
 );

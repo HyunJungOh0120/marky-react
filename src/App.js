@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import ArticleDetail from './Components/Articles/ArticleDetail';
 import Login from './Components/Auth/Login';
 import Register from './Components/Auth/Register';
-import Navbar from './Components/Navigation/Navbar';
-import MyPage from './Components/Pages/MyPage';
+import Board from './Components/Pages/BoardPage';
 import { useMain } from './MainProvider';
 
 function App() {
@@ -12,17 +12,14 @@ function App() {
 	console.log('🏠context', mainState);
 
 	return (
-		<div className="relative">
-			<Navbar />
-
-			<div>{mainState.isAuthenticated}</div>
-			<div>{mainState.userId}</div>
-			<div>{mainState.username}</div>
-			<div>{localStorage.getItem('access_token')}</div>
+		<div className="relative container mx-auto px-4 md:container md:mx-auto max-w-prose  ">
+			<div>
+				{mainState.isAuthenticated ? 'true' : 'false'} {mainState.userId} {mainState.username}
+			</div>
 
 			<Switch>
 				<Route exact path="/">
-					<div>home</div>
+					<div className="bg-blue-200">home</div>
 				</Route>
 				<Route path="/login">
 					<Login />
@@ -31,7 +28,10 @@ function App() {
 					<Register />
 				</Route>
 				<Route path="/board/:username">
-					<MyPage />
+					<Board />
+				</Route>
+				<Route path="/article/:articleId">
+					<ArticleDetail />
 				</Route>
 			</Switch>
 		</div>

@@ -1,16 +1,17 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const BeforeAuth = () => {
+const BeforeAuth = ({ className }) => {
 	return (
-		<div className="col-start-11 col-end-13">
-			<div className="grid grid-cols-2">
+		<div className={`${className}`}>
+			<div className="bg-gray-100 flex justify-between items-center">
 				<Link to="/login">
-					<div>Log In</div>
+					<div className="">Log In</div>
 				</Link>
 
 				<Link to="/register">
-					<div>Register</div>
+					<div className="md:mx-10">Register</div>
 				</Link>
 			</div>
 		</div>
@@ -18,3 +19,7 @@ const BeforeAuth = () => {
 };
 
 export default BeforeAuth;
+
+BeforeAuth.propTypes = {
+	className: PropTypes.string,
+};

@@ -1,17 +1,22 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { actions, useMain } from '../../MainProvider';
 import axiosInstance from '../../utils/axios';
 import ScrapForm from '../Forms/ScrapForm';
 
-const AfterAuth = () => {
-	const { mainDispatch } = useMain();
+const AfterAuth = ({ className }) => {
+	const { mainDispatch, mainState } = useMain();
 	const history = useHistory();
+	const { username } = mainState;
+	const location = useLocation();
+	const [isOpen, setIsOpen] = useState(false);
 
 	const handleLogout = () => {
 		history.push('/');
+		const refreshToken = localStorage.getItem('refresh_token');
 		axiosInstance
-			.post('/user/logout/')
+			.post('/user/logout/', { refresh_token: refreshToken })
 			.then(() => {
 				mainDispatch({ type: actions.SIGNOUT });
 			})
@@ -20,35 +25,81 @@ const AfterAuth = () => {
 			});
 	};
 
+	const linkColorClassName = (buttonName) => {
+		const { pathname } = location;
+
+		if (pathname.slice(1).startsWith(buttonName)) {
+			return 'text-pink-600 md:font-extrabold';
+		}
+	};
+
 	return (
-		<>
-			<div className="col-start-3 col-end-5">
-				<div className="grid grid-cols-2">
-					<Link to="/story">
-						<div>Story</div>
-					</Link>
+		<div className={`${className} flex justify-between items-center `}>
+			<ScrapForm className="md:mr-4 md:w-8/12" />
 
-					<Link to="/forum">
-						<div>Forum</div>
-					</Link>
+			<div className="flex items-center  mr-5 ">
+				<Link to={`/board/${username}`}>
+					<button
+						className={` md:font-medium  text-gray-600 ${linkColorClassName('board')}  md:mr-10`}
+						type="button"
+					>
+						Board
+					</button>
+				</Link>
+				<div className="relative md:ml-10 ">
+					<button
+						type="button"
+						className="block h-8 w-8 rounded-full flex items-center justify-center text-blue-800 overflow-hidden  focus:outline-none focus:border-white"
+						onClick={() => setIsOpen(!isOpen)}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+							/>
+						</svg>
+					</button>
+					<div
+						className={`absolute right-0  mt-2 py-2 w-48 bg-white rounded-lg shadow-xl ${
+							!isOpen ? 'invisible' : ''
+						}`}
+					>
+						<Link to={`/my-page/${username}`}>
+							<button
+								type="button"
+								className={`block w-full px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white ${linkColorClassName(
+									'my-page',
+								)}`}
+							>
+								Account settings
+							</button>
+						</Link>
+						<Link to="/">
+							<button
+								type="button"
+								className="block w-full px-4 py-2 text-gray-800 hover:bg-pink-500 hover:text-white"
+								onClick={handleLogout}
+							>
+								Sign out
+							</button>
+						</Link>
+					</div>
 				</div>
 			</div>
-			<ScrapForm />
-			<div className="col-start-11 col-end-13">
-				<div className="grid grid-cols-2">
-					<Link to="/login">
-						<div>My page</div>
-					</Link>
-
-					<Link to="/">
-						<button type="button" onClick={handleLogout}>
-							Log out
-						</button>
-					</Link>
-				</div>
-			</div>
-		</>
+		</div>
 	);
 };
 
 export default AfterAuth;
+
+AfterAuth.propTypes = {
+	className: PropTypes.string,
+};

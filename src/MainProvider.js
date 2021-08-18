@@ -21,6 +21,7 @@ const mainReducer = (state, action) => {
 	switch (action.type) {
 		case actions.SIGNIN:
 			localStorage.setItem('access_token', action.payload.accessToken);
+			localStorage.setItem('refresh_token', action.payload.refreshToken);
 
 			return {
 				...state,
@@ -30,6 +31,7 @@ const mainReducer = (state, action) => {
 			};
 		case actions.SIGNOUT:
 			localStorage.removeItem('access_token');
+			localStorage.removeItem('refresh_token');
 			return {
 				...state,
 				isAuthenticated: false,

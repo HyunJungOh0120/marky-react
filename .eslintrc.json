@@ -40,8 +40,10 @@
 		"arrow-body-style": "off",
 		"prefer-arrow-callback": "off",
 		"no-unused-vars": "warn",
-		"react/require-default-props": ["warn"],
+
 		"no-plusplus": "off",
-		"no-else-return": "error"
+		"no-else-return": "error",
+		"react/require-default-props": "off",
+		"react/props-types": "off"
 	}
 }

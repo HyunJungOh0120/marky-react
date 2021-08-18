@@ -37,6 +37,7 @@ const Login = () => {
 						type: actions.SIGNIN,
 						payload: {
 							accessToken: res.data.access,
+							refreshToken: res.data.refresh,
 							userId: parseJwt(res.data.access).user_id,
 							username: parseJwt(res.data.access).username,
 						},
