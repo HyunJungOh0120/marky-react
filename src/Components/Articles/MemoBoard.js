@@ -39,7 +39,7 @@ const Memo = ({ onhandleChange, onhandleSaveMemo, memo }) => {
 					onChange={(e) => onhandleChange(e)}
 					onBlur={(e) => blurHandler(e)}
 					name="memo"
-					cols="30"
+					cols="28"
 					rows="7"
 					defaultValue={memo && memo.text}
 					id={memo && memo.id}
@@ -62,16 +62,18 @@ const MemoBoard = ({ className }) => {
 		const { data: response } = await axiosInstance.get(`/memo/?article=${articleId}`);
 		return response;
 	});
-	console.log(data && data);
+	console.log(text);
 
 	// POST memo
 	const addMutation = useMutation(
 		() => {
+			setText('');
 			return axiosInstance.post(`/memo/`, { article: articleId, user: userId, text: text });
 		},
 		{
 			onSuccess: async () => {
 				console.log('im first!');
+
 				queryClient.invalidateQueries('memo');
 			},
 		},
@@ -92,6 +94,7 @@ const MemoBoard = ({ className }) => {
 		// edit memo
 		console.log(e.target.value, id);
 		editMutation.mutate(id);
+		setText('');
 	};
 
 	const handleChange = (e) => {
@@ -101,7 +104,7 @@ const MemoBoard = ({ className }) => {
 
 	return (
 		<div className={`${className}`}>
-			<button type="button" className="mb-2" onClick={handleAddClick}>
+			<button type="button" className="mb-2 self-center" onClick={handleAddClick}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					className="h-6 w-6"
@@ -117,7 +120,7 @@ const MemoBoard = ({ className }) => {
 					/>
 				</svg>
 			</button>
-			<div className="memo-board">
+			<div className="memo-board ">
 				{data &&
 					data.map((memo) => (
 						<Memo

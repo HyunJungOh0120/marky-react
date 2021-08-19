@@ -35,14 +35,14 @@ const AfterAuth = ({ className }) => {
 
 	return (
 		<div className={`${className} flex justify-between items-center `}>
-			<ScrapForm className="md:mr-4 md:w-8/12" />
+			<ScrapForm className=" w-10/12   md:mr-4 md:w-8/12" />
 
-			<div className="flex items-center  mr-5 ">
+			<div className="flex items-center  md:mr-4 sm:mr-2">
 				<Link to={`/board/${username}`}>
 					<button
-						className={` sm:hidden md:font-medium  text-gray-600 ${linkColorClassName(
+						className={`hidden  md:block font-medium  text-gray-600 ${linkColorClassName(
 							'board',
-						)}  md:mr-10`}
+						)}  lg:mr-10`}
 						type="button"
 					>
 						Board
@@ -51,7 +51,7 @@ const AfterAuth = ({ className }) => {
 				<div className="relative md:ml-10 ">
 					<button
 						type="button"
-						className="block h-8 w-8 rounded-full flex items-center justify-center text-blue-800 overflow-hidden  focus:outline-none focus:border-white"
+						className="block  h-8 w-8 rounded-full flex items-center justify-center text-blue-800 overflow-hidden  focus:outline-none focus:border-white"
 						onClick={() => setIsOpen(!isOpen)}
 					>
 						<svg
@@ -70,7 +70,7 @@ const AfterAuth = ({ className }) => {
 						</svg>
 					</button>
 					<div
-						className={`absolute right-0  mt-2 py-2 w-48 bg-white rounded-lg shadow-xl ${
+						className={`absolute right-0 z-40 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl ${
 							!isOpen ? 'invisible' : ''
 						}`}
 						onMouseLeave={() => setIsOpen(false)}
@@ -85,6 +85,16 @@ const AfterAuth = ({ className }) => {
 								Account settings
 							</button>
 						</Link>
+						<Link to={`/board/${username}`}>
+							<button
+								className={`block w-full px-4 py-2 text-gray-800 hover:bg-pink-500 hover:text-whit ${linkColorClassName(
+									'board',
+								)}  md:mr-10`}
+								type="button"
+							>
+								Board
+							</button>
+						</Link>
 						<Link to="/">
 							<button
 								type="button"
@@ -92,16 +102,6 @@ const AfterAuth = ({ className }) => {
 								onClick={handleLogout}
 							>
 								Sign out
-							</button>
-						</Link>
-						<Link to={`/board/${username}`}>
-							<button
-								className={` md:font-medium  text-gray-600 ${linkColorClassName(
-									'board',
-								)}  md:mr-10`}
-								type="button"
-							>
-								Board
 							</button>
 						</Link>
 					</div>

@@ -111,11 +111,11 @@ const Register = () => {
 	};
 
 	return (
-		<div className="border fixed z-50 inset-0 w-full h-screen flex justify-center items-center bg-gray-500 bg-opacity-75">
-			<div className="bg-white rounded-lg shadow-xl  py-12 px-12 sm:px-24 md:px-48 lg:px-12 xl:px-12  relative">
+		<div className="border fixed z-50 inset-0 w-full h-screen flex justify-center items-center bg-gradient-to-r from-green-400 to-blue-500 bg-opacity-75">
+			<div className="bg-white rounded-lg  shadow-xl m-3 py-9 md:py-8 px-12 md:px-48 lg:px-10 xl:px-12  relative">
 				<ExitButton />
 				<h2
-					className="text-center text-4xl text-green-900 font-display font-semibold lg:text-left xl:text-5xl
+					className="text-center text-3xl text-green-900 font-display font-semibold  md:text-5xl
                     xl:text-bold"
 				>
 					Register

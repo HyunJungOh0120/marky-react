@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, useLocation } from 'react-router-dom';
 import { useMain } from '../../MainProvider';
 import axiosInstance from '../../utils/axios';
+import DeleteButton from '../Articles/DeleteButton';
 
 const ColoredIcon = () => {
 	return (
@@ -95,6 +96,16 @@ const CategoryBoard = ({ className }) => {
 			},
 		},
 	);
+	const categoryDeleteMutation = useMutation(
+		(id) => {
+			return axiosInstance.delete(`/category/${id}`);
+		},
+		{
+			onSuccess: async () => {
+				queryClient.invalidateQueries('category');
+			},
+		},
+	);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -103,15 +114,19 @@ const CategoryBoard = ({ className }) => {
 		submitMutation.mutate(formData);
 	};
 
+	const deleteClick = (id) => {
+		categoryDeleteMutation.mutate(id);
+	};
+
 	return (
 		<div className={className}>
 			<form
-				className="relative md:w-full flex md:flex-col md:items-center md:justify-center md:mb-6 "
+				className="relative w-full m-1 flex lg:flex-col items-center justify-center lg:mb-6 "
 				onSubmit={handleSubmit}
 			>
 				<select
 					name="topic"
-					className="form-select block appearance-none w-full bg-white border border-pink-400 hover:border-pink-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mb-2 text-pink-400"
+					className="form-select block appearance-none lg:w-full bg-white border border-pink-400 hover:border-pink-500  text-sm py-1 lg:px-4 md:py-2 lg:pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline md:mb-2 text-pink-400"
 					onChange={handleChange}
 				>
 					<option className="text-gray-300">Please select topic</option>
@@ -129,14 +144,14 @@ const CategoryBoard = ({ className }) => {
 
 				<input
 					type="text"
-					className="form-input rounded md:w-full mb-2 placeholder-pink-500 placeholder-opacity-50 appearance-none bg-transparent border-0 border-b-2  leading-tight focus:outline-none"
+					className="form-input rounded w-64 bg-white md:w-full md:mb-2 p-1 text-sm md:text-base placeholder-pink-500 placeholder-opacity-50 appearance-none bg-transparent border-0   leading-tight focus:outline-none"
 					placeholder="Write Category name"
 					name="name"
 					onChange={handleChange}
 				/>
 				<button
 					type="submit"
-					className="bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-pink-700 hover:border-pink-500 rounded-md md:w-full"
+					className="bg-pink-500 hover:bg-pink-400 text-white  text-xs md:text-base p-1 lg:py-2 lg:px-4 mr-2 border-b-4 border-pink-700 hover:border-pink-500 rounded-md lg:w-full"
 				>
 					CREATE
 				</button>
@@ -150,7 +165,7 @@ const CategoryBoard = ({ className }) => {
 								<button
 									type="button"
 									onClick={handleClick}
-									className="bg-white mb-2 p-2 flex items-center md:w-full rounded-md"
+									className="bg-white m-1  lg:mb-2 p-1 lg:p-2 flex items-center lg:w-full rounded-md"
 								>
 									{BookMarkIconColorForAll()}
 									All
@@ -160,15 +175,15 @@ const CategoryBoard = ({ className }) => {
 						{data &&
 							data.map((category) => (
 								<Link key={category.id} to={`/board/${username}?category=${category.slug}`}>
-									<li>
+									<li className="block flex bg-white m-1 lg:mb-2 p-1 lg:p-2 rounded-md lg:w-full">
 										<button
 											type="button"
-											onClick={handleClick}
-											className="bg-white mb-2 p-2 flex items-center cursor-pointer md:w-full rounded-md"
+											className="flex items-center cursor-pointer lg:w-full rounded-md"
 										>
 											{BookMarkIconColor(category.slug)}
 											{category.name}
 										</button>
+										<DeleteButton onClick={() => deleteClick(category.id)} />
 									</li>
 								</Link>
 							))}

@@ -15,9 +15,11 @@ const Login = () => {
 	});
 
 	const [formData, setFormData] = useState(initialForm);
+	const [error, setError] = useState(false);
 
 	const handleChange = (e) => {
 		const input = e.target.name;
+		setError(false);
 		setFormData(() => {
 			return { ...formData, [input]: e.target.value.trim() };
 		});
@@ -51,11 +53,12 @@ const Login = () => {
 			.catch((err) => {
 				// eslint-disable-next-line
 				console.log(err);
+				setError(true);
 			});
 	};
 
 	return (
-		<div className="border fixed z-50 inset-0 w-full h-screen flex justify-center items-center bg-gray-500 bg-opacity-75">
+		<div className="border fixed z-50 inset-0 w-full h-screen flex justify-center items-center bg-gradient-to-r from-pink-400 to-blue-500 bg-opacity-75">
 			<div className="block bg-white rounded-lg shadow-xl py-12 px-12 sm:px-24 md:px-48 flex-none lg:px-12 xl:px-12 max-w-3xl relative ">
 				<ExitButton />
 				<h2
@@ -101,7 +104,10 @@ const Login = () => {
 								onChange={handleChange}
 							/>
 						</div>
-						<div className="mt-10">
+						<div className="mt-10 relative">
+							{error && (
+								<span className="absolute -top-10 text-red-600">Invalid Information..</span>
+							)}
 							<button
 								type="submit"
 								className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide

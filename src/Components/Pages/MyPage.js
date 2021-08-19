@@ -25,13 +25,13 @@ const MyPage = () => {
 		'border-0 border-b-2 bg-white px-4 py-4 w-1/3 text-sm font-normal text-gray-500';
 
 	return (
-		<div className="container ">
-			<div className="bg-pink-100 p-3 flex flex-col justify-center items-center">
-				<h1>Welcome, {username} </h1>
+		<div className="container rounded">
+			<div className="bg-gradient-to-r from-green-400 to-blue-500 p-3 flex flex-col justify-center items-center rounded">
+				<h1 className="text-3xl  md:text-5xl  font-extrabold text-white">Welcome, {username} </h1>
 			</div>
-			<div className="flex flex-col justify-center items-center px-4 py-4 border">
+			<div className="flex flex-col justify-center items-center px-4 py-4 border rounded">
 				<h2 className="self-start text-gray-800 text-xl mb-3">Basic info</h2>
-				<table className="lg:w-3/4 md:w-full sm:w-full  table-fixed overflow-hidden">
+				<table className="  w-full lg:w-full lg:w-3/4 table-fixed overflow-hidden">
 					<tbody>
 						{data &&
 							Object.keys(data).map((key) => (
@@ -44,7 +44,7 @@ const MyPage = () => {
 							))}
 						<tr>
 							<td className={keyClassName}>PASSWORD</td>
-							<td className="border-0 border-b-2 bg-white px-4 py-2 flex justify-between items-center">
+							<td className="border-0 border-b-2 bg-white px-4 py-4 flex justify-between items-center">
 								********
 								<Link to="/change-password">
 									<button

@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 const BeforeAuth = ({ className }) => {
 	return (
 		<div className={`${className}`}>
-			<div className="bg-gray-100 flex justify-between items-center">
+			<div className=" flex justify-between items-center">
 				<Link to="/login">
-					<div className="">Log In</div>
+					<div className="text-purple-800">Log In</div>
 				</Link>
 
 				<Link to="/register">
-					<div className="md:mx-10">Register</div>
+					<div className="text-indigo-800 md:mx-10">Register</div>
 				</Link>
 			</div>
 		</div>

@@ -110,28 +110,19 @@ const Article = ({ article }) => {
 	};
 
 	return (
-		<div className="w-full bg-white p-3  md:px-4 md:pr-7 rounded-xl overflow-hidden shadow-xl mb-5 relative flex">
+		<div className="w-full bg-white p-3  md:px-4 md:pr-7 rounded-xl overflow-hidden shadow-xl mb-5 relative md:flex ">
 			<Selection
 				data={categoryData}
-				className={`absolute right-2 top-2 z-50 ${!isOpen ? 'invisible' : ''}`}
+				className={`absolute right-0  md:right-2 top-0 md:top-2 z-50 ${!isOpen ? 'invisible' : ''}`}
 				onChange={handleSelect}
 				onMouseEnter={() => setIsOpen(true)}
 				onMouseLeave={() => setIsOpen(false)}
 				category={category}
 			/>
 
-			<div className="absolute right-2 top-2 flex items-center z-40 bg-white">
-				<ArchiveButton
-					onClick={handleClickCategory}
-					onMouseLeave={() => {
-						setIsOpen(false);
-					}}
-				/>
-				<DeleteButton onClick={handleDelete} className="ml-2 cursor-pointer" />
-			</div>
-			<div className="flex-none md:w-60 mr-3 shadow rounded relative h-36 sm:hidden md:block">
+			<div className="flex-none md:w-60 mr-3 shadow rounded relative h-36 hidden md:block">
 				{image === 'No image' && (
-					<div className="flex justify-center items-center w-full h-full bg-green-300 rounded-xl ">
+					<div className="flex justify-center items-center md:w-full h-36 md:h-full bg-green-300 rounded-xl ">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className="h-9 w-9 text-white "
@@ -152,23 +143,34 @@ const Article = ({ article }) => {
 					<img
 						src={image}
 						alt={`This article's ${image}  `}
-						className="rounded-xl object-cover w-full h-full"
+						className="rounded-xl object-cover md:w-full  h-36 md:h-full"
 					/>
 				)}
 			</div>
-			<div className="flex-col  md:w-9/12 relative">
-				<Link to={`/article/${id}?scrap_user=${user}?title=${slug}`}>
-					<h3 className="title mb-3 text-xl truncate font-semibold antialiased leading-relaxed hover:underline cursor-pointer">
-						{title}
-					</h3>
-				</Link>
+			<div className="flex-col  md:w-full relative">
+				<div className="flex justify-between items-start mb-2 md:w-full">
+					<Link to={`/article/${id}?scrap_user=${user}?title=${slug}`}>
+						<h3 className="title  text-md w-11/12 md:text-xl  font-semibold antialiased leading-relaxed hover:underline cursor-pointer">
+							{title}
+						</h3>
+					</Link>
+					<div className=" flex items-center bg-white mr-1">
+						<ArchiveButton
+							onClick={handleClickCategory}
+							onMouseLeave={() => {
+								setIsOpen(false);
+							}}
+						/>
+						<DeleteButton onClick={handleDelete} className="ml-2 cursor-pointer" />
+					</div>
+				</div>
 
 				<div className="mb-3 text-lg break-words overflow-ellipsis flex">
 					<p className="description mt-1 text-sm antialiased leading-relaxed text-left">
 						{description}
 					</p>
 				</div>
-				<div className="absolute bottom-3 right-3 font-mono font-light flex justify-end ">
+				<div className=" bottom-0 md:bottom-3 right-3 font-mono font-light flex justify-end ">
 					<span className=" mr-4 inline-block">{category && category}</span>
 					<span className="inline-block text-gray-600 text-sm">
 						{year}-{month}-{day}
