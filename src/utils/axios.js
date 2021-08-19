@@ -105,17 +105,25 @@ axiosInstance.interceptors.response.use(
 						.catch((err) => {
 							//eslint-disable-next-line
 							console.log(err);
+							localStorage.removeItem('access_token');
+							localStorage.removeItem('refresh_token');
 
 							window.location.href = '/login/';
 						});
 				}
 			} else {
+				localStorage.removeItem('access_token');
+				localStorage.removeItem('refresh_token');
 				window.location.href = '/login/';
 			}
+			localStorage.removeItem('access_token');
+			localStorage.removeItem('refresh_token');
 			//eslint-disable-next-line
 			console.log(error.message);
 			// window.location.href = '/login/';
 		}
+		localStorage.removeItem('access_token');
+		localStorage.removeItem('refresh_token');
 		return Promise.reject(error);
 	},
 );

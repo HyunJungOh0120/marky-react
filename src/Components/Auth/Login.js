@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { actions, useMain } from '../../MainProvider';
 import axiosInstance from '../../utils/axios';
-import ExitButton from './ExitButton';
-import { useMain, actions } from '../../MainProvider';
 import parseJwt from '../../utils/parseJwt';
+import ExitButton from './ExitButton';
 
 const Login = () => {
 	const history = useHistory();
@@ -25,6 +25,7 @@ const Login = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		console.log(formData);
 
 		axiosInstance
 			.post('/user/login/', formData)
@@ -54,7 +55,7 @@ const Login = () => {
 	};
 
 	return (
-		<div className="border fixed inset-0 w-full h-screen flex justify-center items-center bg-gray-500 bg-opacity-75">
+		<div className="border fixed z-50 inset-0 w-full h-screen flex justify-center items-center bg-gray-500 bg-opacity-75">
 			<div className="block bg-white rounded-lg shadow-xl py-12 px-12 sm:px-24 md:px-48 flex-none lg:px-12 xl:px-12 max-w-3xl relative ">
 				<ExitButton />
 				<h2

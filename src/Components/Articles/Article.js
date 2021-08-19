@@ -46,18 +46,7 @@ Selection.propTypes = {
 //eslint-disable-next-line
 const Article = ({ article }) => {
 	const queryClient = useQueryClient();
-	const {
-		id,
-		// eslint-disable-next-line
-		url_address,
-		title,
-		image,
-		description,
-		category,
-		created_at: createdAt,
-		slug,
-		user,
-	} = article;
+	const { id, title, image, description, category, created_at: createdAt, slug, user } = article;
 	const date = new Date(createdAt);
 	const year = date.getFullYear();
 	const month = date.getMonth() + 1;

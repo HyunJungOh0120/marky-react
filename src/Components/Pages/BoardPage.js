@@ -13,13 +13,11 @@ const Board = () => {
 	const { pathname, search } = location;
 
 	const queryClient = useQueryClient();
-	console.log(location);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		queryClient.invalidateQueries('articles');
 	};
-	console.log('search: ', search);
 
 	const handleChange = (e) => {
 		setSearchInput(e.target.value);

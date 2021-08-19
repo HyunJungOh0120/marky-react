@@ -19,7 +19,7 @@ const Navbar = () => {
 				</div>
 			</Link>
 			{!isAuthenticated && <BeforeAuth className="md:w-2/12" />}
-			{isAuthenticated && <AfterAuth className="md:w-9/12 z-50" />}
+			{isAuthenticated && <AfterAuth className="md:w-9/12 z-40" />}
 		</div>
 	);
 };

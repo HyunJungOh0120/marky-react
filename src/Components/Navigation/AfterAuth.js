@@ -40,7 +40,9 @@ const AfterAuth = ({ className }) => {
 			<div className="flex items-center  mr-5 ">
 				<Link to={`/board/${username}`}>
 					<button
-						className={` md:font-medium  text-gray-600 ${linkColorClassName('board')}  md:mr-10`}
+						className={` sm:hidden md:font-medium  text-gray-600 ${linkColorClassName(
+							'board',
+						)}  md:mr-10`}
 						type="button"
 					>
 						Board
@@ -71,11 +73,12 @@ const AfterAuth = ({ className }) => {
 						className={`absolute right-0  mt-2 py-2 w-48 bg-white rounded-lg shadow-xl ${
 							!isOpen ? 'invisible' : ''
 						}`}
+						onMouseLeave={() => setIsOpen(false)}
 					>
 						<Link to={`/my-page/${username}`}>
 							<button
 								type="button"
-								className={`block w-full px-4 py-2 text-gray-800 hover:bg-green-500 hover:text-white ${linkColorClassName(
+								className={`block w-full px-4 py-2 text-gray-800 hover:bg-pink-500 hover:text-white ${linkColorClassName(
 									'my-page',
 								)}`}
 							>
@@ -89,6 +92,16 @@ const AfterAuth = ({ className }) => {
 								onClick={handleLogout}
 							>
 								Sign out
+							</button>
+						</Link>
+						<Link to={`/board/${username}`}>
+							<button
+								className={` md:font-medium  text-gray-600 ${linkColorClassName(
+									'board',
+								)}  md:mr-10`}
+								type="button"
+							>
+								Board
 							</button>
 						</Link>
 					</div>

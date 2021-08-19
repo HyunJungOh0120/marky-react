@@ -1,9 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ArticleDetail from './Components/Articles/ArticleDetail';
+import ChangePassWord from './Components/Auth/ChangePassWord';
 import Login from './Components/Auth/Login';
 import Register from './Components/Auth/Register';
-import Board from './Components/Pages/BoardPage';
+import BoardPage from './Components/Pages/BoardPage';
+import MyPage from './Components/Pages/MyPage';
 import { useMain } from './MainProvider';
 
 function App() {
@@ -18,11 +20,17 @@ function App() {
 				<Route path="/login">
 					<Login />
 				</Route>
+				<Route path="/change-password">
+					<ChangePassWord />
+				</Route>
 				<Route path="/register">
 					<Register />
 				</Route>
+				<Route path="/my-page/:username">
+					<MyPage />
+				</Route>
 				<Route path="/board/:username">
-					<Board />
+					<BoardPage />
 				</Route>
 				<Route path="/article/:articleId">
 					<ArticleDetail />

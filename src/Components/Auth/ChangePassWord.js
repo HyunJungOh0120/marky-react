@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
-import ExitButton from './ExitButton';
+import Alert from '../Forms/Alert';
 
-const Register = () => {
+const ChangePassword = () => {
+	const [status, setStatus] = useState('');
+	const [isClicked, setIsClicked] = useState(false);
+
 	const initialForm = Object.freeze({
-		email: '',
-		username: '',
+		oldPassword: '',
 		password: '',
 		password2: '',
 	});
 
 	const initialError = Object.freeze({
-		email: false,
-		username: false,
+		oldPassword: false,
 		password: false,
 		password2: false,
 	});
@@ -32,13 +33,6 @@ const Register = () => {
 		setFormData(() => {
 			return { ...formData, [input]: e.target.value };
 		});
-
-		// if (input === 'password') {
-		// 	console.log(e.target.value);
-		// }
-		// if (input === 'password2') {
-		// 	console.log(e.target.value);
-		// }
 	};
 
 	const handleBlur = (e) => {
@@ -47,14 +41,11 @@ const Register = () => {
 				return { ...errors, [e.target.name]: 'This field is required' };
 			});
 		}
-		if (e.target.name === 'username') {
-			if (e.target.value.length < 3) {
-				setErrors(() => {
-					return { ...errors, [e.target.name]: "This field's minimun length is 3" };
-				});
-			}
-		}
-		if (e.target.name === 'password' || e.target.name === 'password2') {
+		if (
+			e.target.name === 'password' ||
+			e.target.name === 'password2' ||
+			e.target.name === 'oldPassword'
+		) {
 			if (e.target.value.length < 8) {
 				setErrors(() => {
 					return { ...errors, [e.target.name]: "This field's minimun length is 8" };
@@ -76,14 +67,16 @@ const Register = () => {
 		}
 		if (!validation) return;
 
+		console.log(formData);
+
 		axiosInstance
-			.post('/user/register/', {
-				email: formData.email,
-				username: formData.username,
-				password: formData.password,
+			.put('/user/change_password/', {
+				old_password: formData.oldPassword,
+				new_password: formData.password,
 			})
 			.then(function (res) {
-				if (res.status === 201) {
+				if (res.status === 204) {
+					setStatus('success');
 					history.push('/login');
 				}
 			})
@@ -91,9 +84,9 @@ const Register = () => {
 				if (error.response) {
 					const field = error.response.data;
 
-					if (field.email) {
+					if (field.old_password) {
 						setErrors(() => {
-							return { ...setErrors, email: field.email };
+							return { ...setErrors, oldPassword: field.old_password };
 						});
 					}
 				} else if (error.request) {
@@ -110,46 +103,45 @@ const Register = () => {
 			});
 	};
 
+	const handleRemoveAlert = () => {
+		setIsClicked(!isClicked);
+	};
+
 	return (
 		<div className="border fixed z-50 inset-0 w-full h-screen flex justify-center items-center bg-gray-500 bg-opacity-75">
+			{status === 'success' && (
+				<Alert
+					isClicked={isClicked}
+					onClick={handleRemoveAlert}
+					strong="Yay!"
+					message="Successfully changed"
+					color="green"
+				/>
+			)}
 			<div className="bg-white rounded-lg shadow-xl  py-12 px-12 sm:px-24 md:px-48 lg:px-12 xl:px-12  relative">
-				<ExitButton />
 				<h2
 					className="text-center text-4xl text-green-900 font-display font-semibold lg:text-left xl:text-5xl
                     xl:text-bold"
 				>
-					Register
+					Change Password
 				</h2>
 				<div className="mt-12 w-80">
 					<form onSubmit={handleSubmit}>
-						<div>
-							<div className="text-sm font-bold text-gray-700 tracking-wide">Email Address</div>
-							<input
-								className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-green-750"
-								type="email"
-								required
-								name="email"
-								placeholder="marky@gmail.com"
-								onChange={handleChange}
-								onBlur={handleBlur}
-							/>
-							{errors.email && <span className="text-red-600">{errors.email}</span>}
-						</div>
 						<div className="mt-8">
-							<div className="text-sm font-bold text-gray-700 tracking-wide">Username</div>
+							<div className="text-sm font-bold text-gray-700 tracking-wide">Old Password</div>
 							<input
 								className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-green-750"
-								type="text"
-								name="username"
-								placeholder="marky"
+								type="password"
+								name="oldPassword"
+								placeholder="Enter your old password"
 								onChange={handleChange}
 								onBlur={handleBlur}
 							/>
-							{errors.username && <span className="text-red-600">{errors.username}</span>}
+							{errors.oldPassword && <span className="text-red-600">{errors.oldPassword}</span>}
 						</div>
 						<div className="mt-8">
 							<div className="flex justify-between items-center">
-								<div className="text-sm font-bold text-gray-700 tracking-wide">Password</div>
+								<div className="text-sm font-bold text-gray-700 tracking-wide">New Password</div>
 							</div>
 							<input
 								className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-green-500"
@@ -184,20 +176,14 @@ const Register = () => {
                                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-green-600
                                 shadow-lg"
 							>
-								Register
+								Change
 							</button>
 						</div>
 					</form>
-					<div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
-						Already have an account ?{' '}
-						<Link to="/login">
-							<span className="cursor-pointer text-green-600 hover:text-green-800">Sign In</span>
-						</Link>
-					</div>
 				</div>
 			</div>
 		</div>
 	);
 };
 
-export default Register;
+export default ChangePassword;

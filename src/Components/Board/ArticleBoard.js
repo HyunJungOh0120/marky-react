@@ -13,8 +13,6 @@ const ArticleBoard = ({ className }) => {
 	const { category } = queryString.parse(search);
 	const { q } = queryString.parse(search);
 
-	console.log('q: ', q);
-
 	const categoryQuerystring = category !== undefined ? `&category=${category}` : '';
 	const searchQuerystring = q !== undefined ? `&search=${q}` : '';
 
@@ -25,7 +23,6 @@ const ArticleBoard = ({ className }) => {
 		return response;
 	});
 
-	console.log(data && data);
 	return (
 		<div className={className}>
 			{isLoading && <Loading text="Loading..." />}
