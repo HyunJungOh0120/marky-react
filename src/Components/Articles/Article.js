@@ -104,7 +104,6 @@ const Article = ({ article }) => {
 	});
 
 	const handleClickCategory = () => {
-		console.log('show existing category');
 		setIsOpen(!isOpen);
 	};
 
@@ -118,12 +117,11 @@ const Article = ({ article }) => {
 			...article,
 			category: newCategoryId,
 		};
-		console.log(data);
 		categoryMutation.mutate(data);
 	};
 
 	return (
-		<div className="w-full bg-white p-3 px-4 rounded-xl overflow-hidden shadow-xl mb-5 relative flex">
+		<div className="w-full bg-white p-3  md:px-4 md:pr-7 rounded-xl overflow-hidden shadow-xl mb-5 relative flex">
 			<Selection
 				data={categoryData}
 				className={`absolute right-2 top-2 z-50 ${!isOpen ? 'invisible' : ''}`}
@@ -133,7 +131,7 @@ const Article = ({ article }) => {
 				category={category}
 			/>
 
-			<div className="absolute right-2 top-2 flex items-center z-40">
+			<div className="absolute right-2 top-2 flex items-center z-40 bg-white">
 				<ArchiveButton
 					onClick={handleClickCategory}
 					onMouseLeave={() => {
@@ -142,12 +140,12 @@ const Article = ({ article }) => {
 				/>
 				<DeleteButton onClick={handleDelete} className="ml-2 cursor-pointer" />
 			</div>
-			<div className="flex-none w-60 mr-3 shadow rounded relative h-36">
+			<div className="flex-none md:w-60 mr-3 shadow rounded relative h-36 sm:hidden md:block">
 				{image === 'No image' && (
-					<div className="flex justify-center items-center h-full ">
+					<div className="flex justify-center items-center w-full h-full bg-green-300 rounded-xl ">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className="h-9 w-9 text-gray-600 "
+							className="h-9 w-9 text-white "
 							fill="none"
 							viewBox="0 0 24 24"
 							stroke="currentColor"

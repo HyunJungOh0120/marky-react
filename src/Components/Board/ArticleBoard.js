@@ -13,15 +13,19 @@ const ArticleBoard = ({ className }) => {
 	const { category } = queryString.parse(search);
 	const { q } = queryString.parse(search);
 
-	const querystring = category !== undefined ? `&category=${category}` : '';
+	console.log('q: ', q);
 
-	const { data, isLoading } = useQuery(['articles', category], async () => {
+	const categoryQuerystring = category !== undefined ? `&category=${category}` : '';
+	const searchQuerystring = q !== undefined ? `&search=${q}` : '';
+
+	const { data, isLoading } = useQuery(['articles', category, q], async () => {
 		const { data: response } = await axiosInstance.get(
-			`/articles/?username=${username}${querystring}`,
+			`/articles/?username=${username}${categoryQuerystring}${searchQuerystring}`,
 		);
 		return response;
 	});
 
+	console.log(data && data);
 	return (
 		<div className={className}>
 			{isLoading && <Loading text="Loading..." />}
