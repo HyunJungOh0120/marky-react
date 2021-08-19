@@ -1,29 +1,34 @@
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useLocation, useParams } from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
 import Article from '../Articles/Article';
 import Loading from '../Forms/Loading';
 
 const ArticleBoard = ({ className }) => {
 	const { username } = useParams();
-	// const [articles, setArticles] = useState([]);
+	const { search } = useLocation();
+	const { category } = queryString.parse(search);
+	const { q } = queryString.parse(search);
 
-	const { data, isLoading } = useQuery('articles', async () => {
-		const { data: response } = await axiosInstance.get(`/articles/?username=${username}`);
+	const querystring = category !== undefined ? `&category=${category}` : '';
+
+	const { data, isLoading } = useQuery(['articles', category], async () => {
+		const { data: response } = await axiosInstance.get(
+			`/articles/?username=${username}${querystring}`,
+		);
 		return response;
 	});
-
-	// if (isLoading) return 'Loading...';
-
-	// if (error) return `An error has occurred: ${error.message}`;
-	console.log(data && data);
 
 	return (
 		<div className={className}>
 			{isLoading && <Loading text="Loading..." />}
-			{data && data.map((article) => <Article key={article.id} article={article} />)}
+			{data && data.length === 0 && <div>no article yet</div>}
+			{data &&
+				data.length > 0 &&
+				data.map((article) => <Article key={article.id} article={article} />)}
 		</div>
 	);
 };

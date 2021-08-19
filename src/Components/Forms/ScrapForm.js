@@ -103,7 +103,7 @@ const ScrapForm = ({ className }) => {
 						<>
 							<button
 								type="submit"
-								className="font-logo bg-green-600 hover:bg-green-700 text-white p-2 px-3 rounded-xl subpixel-antialiased text-xl"
+								className="font-logo bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded-md text-xl"
 							>
 								marky
 							</button>

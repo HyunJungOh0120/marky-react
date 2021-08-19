@@ -39,7 +39,6 @@ axiosInstance.interceptors.request.use(
 		// eslint-disable-next-line
 		// config.headers['X-CSRFToken'] = csrftoken;
 		config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : '';
-		console.log(config);
 
 		return config;
 	},

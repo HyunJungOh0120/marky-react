@@ -1,18 +1,68 @@
-import React from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
+import ArchiveButton from './ArchiveButton';
 import DeleteButton from './DeleteButton';
+
+const Selection = ({ data, className, onChange, onMouseEnter, onMouseLeave }) => {
+	return (
+		<div
+			className={className}
+			onMouseEnter={() => {
+				onMouseEnter();
+			}}
+			onMouseLeave={() => {
+				onMouseLeave();
+			}}
+		>
+			<select
+				className="form-select"
+				onChange={(e) => {
+					onChange(e);
+				}}
+			>
+				<option>Select Category</option>
+				{data.map((cat) => (
+					<option key={cat.name} value={cat.name}>
+						{cat.name}
+					</option>
+				))}
+			</select>
+		</div>
+	);
+};
+
+Selection.propTypes = {
+	// eslint-disable-next-line
+	data: PropTypes.array,
+	className: PropTypes.string,
+	onChange: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
+};
 
 //eslint-disable-next-line
 const Article = ({ article }) => {
 	const queryClient = useQueryClient();
-	// eslint-disable-next-line
-	const { id, title, image, description, category, created_at: createdAt, slug, user } = article;
+	const {
+		id,
+		// eslint-disable-next-line
+		url_address,
+		title,
+		image,
+		description,
+		category,
+		created_at: createdAt,
+		slug,
+		user,
+	} = article;
 	const date = new Date(createdAt);
 	const year = date.getFullYear();
 	const month = date.getMonth() + 1;
 	const day = date.getDate();
+	const [isOpen, setIsOpen] = useState(false);
 	// userid of article
 
 	const mutation = useMutation(
@@ -27,15 +77,71 @@ const Article = ({ article }) => {
 		},
 	);
 
+	const categoryMutation = useMutation(
+		(data) => {
+			return axiosInstance.put(`/articles/${id}`, data);
+		},
+		{
+			onSuccess: async () => {
+				console.log('success!💚');
+				queryClient.invalidateQueries('articles');
+			},
+			onError: async (err) => {
+				console.log('💥', err.messsage);
+			},
+		},
+	);
+
 	const handleDelete = (e) => {
 		e.preventDefault();
 		// axiosInstance.delete(`/articles/${id}`).then((res) => console.log(res));
 		mutation.mutate();
 	};
 
+	const { data: categoryData } = useQuery('category', async () => {
+		const { data: response } = await axiosInstance.get(`/category/`);
+		return response;
+	});
+
+	const handleClickCategory = () => {
+		console.log('show existing category');
+		setIsOpen(!isOpen);
+	};
+
+	//* change category for article
+	const handleSelect = (e) => {
+		const name = e.target.value;
+		const selectedIndex = categoryData.findIndex((cat) => cat.name === name);
+		const sel = categoryData[selectedIndex];
+		const { id: newCategoryId } = sel;
+		const data = {
+			...article,
+			category: newCategoryId,
+		};
+		console.log(data);
+		categoryMutation.mutate(data);
+	};
+
 	return (
 		<div className="w-full bg-white p-3 px-4 rounded-xl overflow-hidden shadow-xl mb-5 relative flex">
-			<DeleteButton onClick={handleDelete} />
+			<Selection
+				data={categoryData}
+				className={`absolute right-2 top-2 z-50 ${!isOpen ? 'invisible' : ''}`}
+				onChange={handleSelect}
+				onMouseEnter={() => setIsOpen(true)}
+				onMouseLeave={() => setIsOpen(false)}
+				category={category}
+			/>
+
+			<div className="absolute right-2 top-2 flex items-center z-40">
+				<ArchiveButton
+					onClick={handleClickCategory}
+					onMouseLeave={() => {
+						setIsOpen(false);
+					}}
+				/>
+				<DeleteButton onClick={handleDelete} className="ml-2 cursor-pointer" />
+			</div>
 			<div className="flex-none w-60 mr-3 shadow rounded relative h-36">
 				{image === 'No image' && (
 					<div className="flex justify-center items-center h-full ">
@@ -87,3 +193,17 @@ const Article = ({ article }) => {
 };
 
 export default Article;
+
+Article.propTypes = {
+	article: PropTypes.shape({
+		id: PropTypes.number,
+		url_address: PropTypes.string,
+		title: PropTypes.string,
+		image: PropTypes.string,
+		description: PropTypes.string,
+		category: PropTypes.number,
+		created_at: PropTypes.string,
+		slug: PropTypes.string,
+		user: PropTypes.number,
+	}),
+};

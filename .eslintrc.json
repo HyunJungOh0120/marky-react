@@ -28,7 +28,6 @@
 		"consistent-return": "off",
 		"func-names": "off",
 
-		"react/prop-types": ["warn"],
 		"no-return-assign": ["off"],
 		"object-shorthand": "off",
 		"no-process-exit": "off",

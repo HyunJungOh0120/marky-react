@@ -8,15 +8,9 @@ import { useMain } from './MainProvider';
 
 function App() {
 	const { mainState } = useMain();
-	//eslint-disable-next-line
-	console.log('🏠context', mainState);
 
 	return (
 		<div className="relative container mx-auto px-4 md:container md:mx-auto max-w-prose  ">
-			<div>
-				{mainState.isAuthenticated ? 'true' : 'false'} {mainState.userId} {mainState.username}
-			</div>
-
 			<Switch>
 				<Route exact path="/">
 					<div className="bg-blue-200">home</div>
