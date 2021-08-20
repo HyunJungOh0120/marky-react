@@ -43,9 +43,9 @@ npm i
 ## 🎨 Wireframes
 
 <img src = "https://github.com/HyunJungOh0120/marky-react/blob/main/public/img/plan.png?raw=true" width='300'/>
-<img src = "https://github.com/HyunJungOh0120/marky-react/blob/main/public/img/wireframe_landing.png?raw=true" width='300'/>
-<img src = "https://github.com/HyunJungOh0120/marky-react/blob/main/public/img/wireframe_article_list.png?raw=true" width='300'/>
-<img src = "https://github.com/HyunJungOh0120/marky-react/blob/main/public/img/wireframe_article_detail.png?raw=true" width='300'/>
+<img src = "https://github.com/HyunJungOh0120/marky-react/blob/main/public/img/wireframe_landing.png?raw=true" width='800'/>
+<img src = "https://github.com/HyunJungOh0120/marky-react/blob/main/public/img/wireframe_article_list.png?raw=true" width='800'/>
+<img src = "https://github.com/HyunJungOh0120/marky-react/blob/main/public/img/wireframe_article_detail.png?raw=true" width='800'/>
 
 <br/>
 <br/>
