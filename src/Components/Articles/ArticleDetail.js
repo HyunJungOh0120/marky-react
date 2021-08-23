@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
+
 import axiosInstance from '../../utils/axios';
 import MemoBoard from './MemoBoard';
 

@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const axiosInstance = axios.create({
-	baseURL: `https://marky-django.herokuapp.com/api`,
+	baseURL: 'https://marky-django.herokuapp.com/api',
 	headers: {
 		'Content-Type': 'application/json',
 
