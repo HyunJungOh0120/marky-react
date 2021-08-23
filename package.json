@@ -26,7 +26,6 @@
 		"react-scripts": "4.0.3",
 		"web-vitals": "^1.1.2"
 	},
-	"proxy": "http://marky-django.herokuapp.com",
 	"scripts": {
 		"start": "craco start",
 		"build": "craco build",
