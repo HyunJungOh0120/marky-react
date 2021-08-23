@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
 import axiosInstance from '../../utils/axios';
 import MemoBoard from './MemoBoard';
 
@@ -20,6 +21,7 @@ const ArticleDetail = () => {
 		setIsShown(!isShown);
 	};
 
+	console.log(article && article);
 	return (
 		<div className="lg:container mx-auto ">
 			<div className="mx-auto text-center">
@@ -71,6 +73,8 @@ const ArticleDetail = () => {
 
 				<div className="h-screen overflow-scroll">
 					<img src={article && article.file_url} alt={article && article.title} />
+					<p>In deploy version, due to module error,</p>
+					{/* <Image publicId="https://cnn.com" type="url2png" /> */}
 				</div>
 			</div>
 		</div>

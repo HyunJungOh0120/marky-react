@@ -81,8 +81,8 @@ const Article = ({ article }) => {
 		},
 	);
 
-	const handleDelete = (e) => {
-		e.preventDefault();
+	const handleDelete = () => {
+		// e.preventDefault();
 		// axiosInstance.delete(`/articles/${id}`).then((res) => console.log(res));
 		mutation.mutate();
 	};
