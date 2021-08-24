@@ -4,8 +4,7 @@ A Book Mark web-application to collect URLs & write memo, built with Python, Dja
 
 [Marky - vercel](https://marky-react.vercel.app/)
 
-[Marky-django github](https://github.com/HyunJungOh0120/marky-django)
-[Marky-django2 with playwright github](https://github.com/HyunJungOh0120/marky-django2)
+[Marky-django with playwright github](https://github.com/HyunJungOh0120/marky-django2)
 
 <br/>
 
